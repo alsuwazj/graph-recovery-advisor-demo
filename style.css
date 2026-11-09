@@ -17,3 +17,5 @@ body.simple{background:#fff;font-family:Arial,sans-serif;color:#242a2b}
 .graph-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}.graph-tabs button{padding:8px 14px;font-size:12px}
 
 .selectable:hover .original-hitbox.selected,.selectable:focus .original-hitbox.selected{stroke:#ff0000;stroke-width:3}
+
+.original-hitbox.answer-correct{fill:#00a84f55;stroke:#008a3e;stroke-width:4}.original-hitbox.answer-wrong{fill:#ff000055;stroke:#ff0000;stroke-width:3}

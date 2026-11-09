@@ -1,10 +1,10 @@
-export function originalGraph(asset,target=[],interactive=false,selected=new Set()){
+export function originalGraph(asset,target=[],interactive=false,selected=new Set(),feedback=false){
  const [x,y,w,h]=asset.viewBox;
  const image=`<image href="${asset.url}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
  const overlay=asset.hitboxes.map((n,i)=>{
   const on=selected.has(n.id),highlight=target.includes(n.id);
-  const rect=`<rect class="original-hitbox ${on?'selected':''} ${highlight?'target':''}" x="${n.x}" y="${n.y}" width="${n.width}" height="${n.height}"/>`;
-  return interactive?`<g class="selectable" role="checkbox" tabindex="0" aria-checked="${on}" aria-label="Node ${i+1}" data-id="${n.id}">${rect}</g>`:highlight?rect:'';
+  const rect=`<rect class="original-hitbox ${on?'selected':''} ${highlight?'target':''} ${feedback?(highlight?'answer-correct':on?'answer-wrong':''):''}" x="${n.x}" y="${n.y}" width="${n.width}" height="${n.height}"/>`;
+  return interactive?`<g class="selectable" role="checkbox" tabindex="0" aria-checked="${on}" aria-label="Node ${i+1}" data-id="${n.id}">${rect}</g>`:(highlight||(feedback&&on))?rect:'';
  }).join('');
  return `<svg viewBox="${asset.viewBox.join(' ')}" role="group" aria-label="${interactive?'Select the remembered nodes':'Original project graph'}">${image}${overlay}</svg>`;
 }
