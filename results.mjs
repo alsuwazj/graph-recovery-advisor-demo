@@ -1,9 +1,9 @@
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const seconds=value=>Number.isFinite(value)?(value/1000).toFixed(3):'';
 export function resultsCsv(session){
- const columns=['session','question','graph','target_ar','method','correct','node_f1','timeout','technical_invalid','answer_seconds','animation_seconds','total_response_seconds','selected_nodes','target_nodes'];
+ const columns=['session','seed','presentation_order','viewing','question','graph','target_ar','method','correct','node_f1','timeout','technical_invalid','answer_seconds','animation_seconds','total_response_seconds','selected_nodes','target_nodes'];
  const cell=v=>'"'+String(v??'').replace(/^[=+@-]/,"'$&").replaceAll('"','""')+'"';
- const rows=(session.answers||[]).map(a=>[session.id,a.item,a.graph,a.targetAspect,a.method==='A'?'ARCOL linear':'DARCOL',a.correct,a.f1,a.timeout,a.technicalInvalid,seconds(a.postTransitionMs),seconds(a.presentationMs),seconds(a.endToEndMs),(a.selected||[]).join(';'),(a.target||[]).join(';')]);
+ const rows=(session.answers||[]).map(a=>[session.id,session.seed,a.index,a.viewing,a.item,a.graph,a.targetAspect,a.method==='A'?'ARCOL linear':'DARCOL',a.correct,a.f1,a.timeout,a.technicalInvalid,seconds(a.postTransitionMs),seconds(a.presentationMs),seconds(a.endToEndMs),(a.selected||[]).join(';'),(a.target||[]).join(';')]);
  return [columns,...rows].map(row=>row.map(cell).join(',')).join('\r\n');
 }
 export function summarize(session){return ['A','C'].map(method=>{

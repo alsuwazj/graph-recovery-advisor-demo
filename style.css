@@ -19,3 +19,5 @@ body.simple{background:#fff;font-family:Arial,sans-serif;color:#242a2b}
 .selectable:hover .original-hitbox.selected,.selectable:focus .original-hitbox.selected{stroke:#ff0000;stroke-width:3}
 
 .original-hitbox.answer-correct{fill:#00a84f55;stroke:#008a3e;stroke-width:4}.original-hitbox.answer-wrong{fill:#ff000055;stroke:#ff0000;stroke-width:3}
+
+.comparison-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}.comparison-video{width:100%;aspect-ratio:16/9;display:block;background:white;pointer-events:none}fieldset{border:1px solid var(--line);border-radius:8px;margin:24px 0;padding:18px}legend{font-weight:600}.comparison-pair h3{font-size:14px}.comparison-pair+button{margin-top:15px}
