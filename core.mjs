@@ -29,7 +29,7 @@ export function validateManifest(m){
 }
 
 export function validateThreeGraphs(m){
- const errors=[];const advisor=m.design==='advisor-two-graph-preview';const expectedGraphs=advisor?['small','wien']:['small','sydney','melb'];const methods=advisor?['A','C']:['A','B','C'];const count=expectedGraphs.length*methods.length;
+ const errors=[];const advisor=m.design==='advisor-two-graph-preview';const expectedGraphs=advisor?(m.exampleAspects?['small','wien','wien033']:['small','wien']):['small','sydney','melb'];const methods=advisor?['A','C']:['A','B','C'];const count=expectedGraphs.length*methods.length;
  if(m.demo!==true)errors.push('This short repeated-graph design is preview only.');
  if(m.items?.length!==count||m.practice?.length!==0)return [`The preview needs ${count} questions and no practice items.`];
  if(new Set(m.items.map(x=>x.id)).size!==count)errors.push('Question IDs must be unique.');
@@ -41,7 +41,7 @@ export function validateThreeGraphs(m){
   if(group.length!==methods.length||new Set(group.map(x=>x.method)).size!==methods.length||!methods.every(method=>group.some(x=>x.method===method)))errors.push(`${graphId}: incorrect method coverage.`);
   const reference=group[0];
   for(const item of group){
-   if(item.targetAspect!==m.targetAspect||item.original?.arcolTargetAspect!==m.targetAspect||item.original?.darcolTargetAspect!==m.targetAspect)errors.push(`${item.id}: target AR differs across methods.`);
+   if(item.targetAspect!==(m.exampleAspects?.[graphId]??m.targetAspect)||item.original?.arcolTargetAspect!==item.targetAspect||item.original?.darcolTargetAspect!==item.targetAspect)errors.push(`${item.id}: target AR differs across methods.`);
    if(JSON.stringify(item.edges)!==JSON.stringify(reference.edges)||JSON.stringify(item.target)!==JSON.stringify(reference.target)||item.original?.initial?.url!==reference.original?.initial?.url||item.original?.finalB?.url!==reference.original?.finalB?.url)errors.push(`${item.id}: graph, target or shared DARCOL endpoint differs.`);
    const ids=new Set(item.initial?.map(n=>n.id));
    if(ids.size!==item.initial?.length||!item.target?.length||item.target.some(id=>!ids.has(id)))errors.push(`${item.id}: invalid target mapping.`);
