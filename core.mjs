@@ -48,6 +48,11 @@ export function validateThreeGraphs(m){
    if(item.edges?.some(([a,b])=>!ids.has(a)||!ids.has(b)))errors.push(`${item.id}: invalid graph edges.`);
    for(const key of ['initial','finalA','finalB']){const a=item.original?.[key];if(!a||!/^media\/gui\/|^data:image\/(png|svg\+xml);base64,/.test(a.url)||a.renderer!=='darcol.render.canvas.GraphCanvas'||a.viewBox?.length!==4||a.viewBox.some(x=>!Number.isFinite(x))||a.viewBox[2]<=0||a.viewBox[3]<=0||a.hitboxes?.length!==ids.size||new Set(a.hitboxes.map(n=>n.id)).size!==ids.size||a.hitboxes.some(n=>!ids.has(n.id)||!['x','y','width','height'].every(k=>Number.isFinite(n[k]))||n.width<=0||n.height<=0))errors.push(`${item.id}: invalid GUI screenshot mapping.`);}
    if(!item.original?.video||!Number.isFinite(item.original.videoDurationMs))errors.push(`${item.id}: matching native recording required.`);
+   if(m.animationComparison==='darcol-vs-linear-arcol'){
+    if(item.presentation!==(item.method==='A'?'linear':'darcol'))errors.push(`${item.id}: incorrect animation presentation.`);
+    if(!item.original.arcolVideo||item.original.arcolAnimation!=='linear-screen-space'||item.original.arcolMotion?.easing!=='none')errors.push(`${item.id}: linear ARCOL recording required.`);
+    if(Math.abs(item.original.arcolVideoDurationMs-item.original.videoDurationMs)>1)errors.push(`${item.id}: animation durations must match.`);
+   }
   }
  }
  return errors;
