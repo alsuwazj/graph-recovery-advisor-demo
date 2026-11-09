@@ -29,7 +29,7 @@ export function validateManifest(m){
 }
 
 export function validateThreeGraphs(m){
- const errors=[];const advisor=m.design==='advisor-two-graph-preview';const expectedGraphs=advisor?(m.pairedStudy?['small','wien','wien033','sydney','melb']:m.exampleAspects?['small','wien','wien033']:['small','wien']):['small','sydney','melb'];const methods=advisor?['A','C']:['A','B','C'];const count=expectedGraphs.length*methods.length;
+ const errors=[];const advisor=m.design==='advisor-two-graph-preview';const expectedGraphs=advisor?(m.pairedStudy?['small','wien','wien356']:m.exampleAspects?['small','wien','wien356']:['small','wien']):['small','sydney','melb'];const methods=advisor?['A','C']:['A','B','C'];const count=expectedGraphs.length*methods.length;
  if(m.demo!==true)errors.push('This short repeated-graph design is preview only.');
  if(m.items?.length!==count||m.practice?.length!==0)return [`The preview needs ${count} questions and no practice items.`];
  if(new Set(m.items.map(x=>x.id)).size!==count)errors.push('Question IDs must be unique.');

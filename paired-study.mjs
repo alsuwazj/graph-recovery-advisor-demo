@@ -6,10 +6,10 @@ export const preferenceQuestions=[
  ['preference','Which animation do you prefer overall?']
 ];
 export function pairedPlan(items,seed){
- const rng=random(seed);
+ const rng=random(seed);const frequencies=new Map();for(const item of items)frequencies.set(item.sourceGraph,(frequencies.get(item.sourceGraph)||0)+1);const largest=Math.max(...frequencies.values());const minimumAdjacent=Math.max(0,largest-(items.length-largest)-1);
  for(let attempt=0;attempt<20000;attempt++){
   const plan=shuffle(items,rng);
-  if(plan.some((x,i)=>i>0&&x.sourceGraph===plan[i-1].sourceGraph))continue;
+  if(plan.filter((x,i)=>i>0&&x.sourceGraph===plan[i-1].sourceGraph).length>minimumAdjacent)continue;
   if(plan.some((x,i)=>plan.some((y,j)=>i!==j&&x.graphId===y.graphId&&Math.abs(i-j)<3)))continue;
   if(plan.some((x,i)=>i>=3&&plan.slice(i-3,i+1).every(y=>y.method===x.method)))continue;
   const counts=new Map();return plan.map((x,index)=>{const viewing=(counts.get(x.graphId)||0)+1;counts.set(x.graphId,viewing);return {...x,block:0,presentationIndex:index,viewing};});
